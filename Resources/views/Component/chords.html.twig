@@ -1,0 +1,15 @@
+{% if display is not defined %}
+    {% set display = "none" %}
+{% endif %}
+
+
+{% if track.chords is not empty %}
+    <div class="well sidebar-nav chords track-{{ track.slug }}" style="display: {{ display }};">
+        <ul class="nav nav-list">
+            <li class="nav-header">Grille d'accord</li>
+            <li>
+                {{ track.chords|getArrayChord|raw }}
+            </li>
+        </ul>
+    </div>
+{% endif %}

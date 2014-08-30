@@ -1,0 +1,13 @@
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li class="nav-header">Sources
+            <small style="text-transform: none; font-size: 0.8em;">(images, biographies...)</small>
+        </li>
+        {% for thank in thanks %}
+            <li>
+                <a href="{{ thank.url }}">{{ thank.name }}</a>
+            </li>
+
+        {% endfor %}
+    </ul>
+</div>

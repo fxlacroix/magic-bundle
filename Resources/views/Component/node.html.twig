@@ -1,0 +1,100 @@
+{% for entity in entities|slice(0,100) %}
+
+    {% set relationsEntity = entity|getOwningSideRelations %}
+
+    <ul {% if level == 0 %}id="browser-{{ entity.id }}"
+        class="browser-{{ entity.id }} filetree {{ entity|getClassCss }}"
+        {% else %}class="{{ entity|getClassCss }}"{% endif %}
+        itemprop="/admin/ajax/{{ entity|getClassChildName }}/tree/refresh">
+
+        {% if level == 0 and loop.index == 1 %}
+            <li>
+                {% set baseClasse = entity|getClassChildName %}
+                <a href="#" class="refresh_tree" style="text-decoration: none; cursor: pointer; cursor: hand;">
+                    <i class="icon-refresh"></i>
+                </a>
+                <a href="#" class="new" itemprop="/admin/ajax/{{ baseClasse }}/{{ baseClasse }}/new">
+                    <i class="icon-plus"></i>
+                </a>
+            </li>
+
+        {% endif %}
+
+        <li class="{{ entity|getClassCss }}">
+
+            <span class="fxl-common-toolbar pull-right">
+                <a href="#" class="edit"
+                   itemprop="/admin/ajax/{{ baseClasse }}/{{ entity|getClassChildName }}/{{ entity.id }}/edit"><i
+                            class="icon-edit"></i></a>
+
+                {% if relationsEntity|length > 0 %}
+
+                    {% for relationEntity in relationsEntity %}
+                        {% if 'remove' in relationEntity['cascade'] %}
+                            {% set targetEntity = relationEntity.targetEntity|getNamespaceChildName %}
+
+                            <a href="#" class="new"
+                               itemprop="/admin/ajax/{{ baseClasse }}/{{ targetEntity }}/{{ entity|getClassChildName }}/{{ entity.id }}/new"><i
+                                        class="icon-plus"></i></a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <a href="#" class="delete"
+                   itemprop="/admin/ajax/{{ baseClasse }}/{{ entity|getClassChildName }}/{{ entity.id }}/delete"><i
+                            class="icon-trash"></i></a>
+
+                    <!--i class="icon-{{ entity|getClassChildName }}"></i-->
+
+            </span>
+
+            <a href="#"
+               class="{{ entity|getClassChildName }} {% if entity.right is defined and entity.right %}right{% endif %}">
+
+                {% if entity.name is defined and entity.name is not empty %}
+                    {{ entity.name }}
+                {% elseif entity.content is defined and entity.content is not empty %}
+                    {% if entity.content|length < 23 %}
+                        {{ entity.content }}
+                    {% else %}
+                        {{ entity.content|slice(0, 10) }}...{{ entity.content|slice(entity.content|length - 10, entity.content|length) }}
+                    {% endif %}
+                {% else %}
+                    {{ entity.id }}...
+                {% endif %}
+            </a>
+
+            {% for relationEntity in relationsEntity %}
+
+                {% set relationFieldName = relationEntity.fieldName %}
+                {% set nodes = attribute(entity, relationFieldName) %}
+
+                {% if nodes|length > 0 and nodes.0.hideInTree is not defined %}
+
+                    {#% include ':Default:node.html.twig' with {
+
+                        entities:nodes,
+                        level: level + 1,
+                        baseClasse: baseClasse
+
+                    } only %#}
+                {% endif %}
+            {% endfor %}
+
+        </li>
+    </ul>
+{% endfor %}
+
+{% for entity in entities|slice(0,100) %}
+
+    <script>
+        $(document).ready(function () {
+
+            $("#browser-{{ entity.id }}").treeview({
+                cookieId: "treeview-admin",
+                collapsed: true,
+            });
+        });
+    </script>
+
+{% endfor %}

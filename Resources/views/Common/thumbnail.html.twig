@@ -1,0 +1,69 @@
+{% for item in items %}
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+
+            {% if item.date is defined and item.date is not empty and showDate is defined and showDate is not empty %}
+                <div class="label label-default pull-left">
+                    mis a jour le {{ item.date }}
+                </div>
+            {% endif %}
+
+            {% if item.files.count > 0 and showCount is defined and showCount is not empty %}
+                <div class="label label-info pull-right">
+                    {{ item.files.count }} prises
+                </div>
+            {% endif %}
+
+            {% if item.picture is defined and item.picture is not empty %}
+                <a href="{{ path('photo_user_list_folder', {
+                'userName': userName,
+                'folderName': item.name
+                }) }}">
+                    <div class="crop">
+
+                        <img data-src="{{ item.picture }}" alt="100%x200" src="{{ item.picture }}">
+                    </div>
+                </a>
+            {% endif %}
+
+            {% if withButton is defined and withButton is not empty %}
+                <a href="{{ path('photo_user_list_folder', {
+                'userName': userName,
+                'folderName': item.name
+                }) }}" class="btn btn-primary pull-right" role="button">Voir la gallerie</a>
+            {% endif %}
+
+            <h3 style="text-align: center;">{{ item.name|capitalize }}</h3>
+
+            {% if item.content is defined and item.content is not empty %}
+                <p>{{ item.content }}</p>
+            {% endif %}
+
+            <div class="clearfix visible-xs-block"></div>
+        </div>
+
+        {% if loop.index % 3 == 0 %}
+            <br/>
+        {% endif %}
+
+    </div>
+
+    <script>
+
+    </script>
+
+    <style>
+        .crop {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .crop img {
+            min-height: 200px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+    </style>
+
+{% endfor %}

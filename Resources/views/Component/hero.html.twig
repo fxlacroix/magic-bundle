@@ -1,0 +1,44 @@
+<div class="hero-unit" style="height: 170px; position: relative;">
+
+    {% if path is defined and path is not empty %}
+        <div class="crop" style="float: right;height: 170px;">
+            <img alt="logo à la une" src="{{ path }}" style=""/>
+        </div>
+    {% endif %}
+
+
+    <div class="span3" style="float: right;">
+        {% if tags is defined and tags is not empty %}
+
+            {% for tag in tags %}
+
+                {% if tag.name is defined %}
+                    <span class="label label-inverse" style="float: right;margin-left: 2px;">
+                    {{ tag.name }}
+                </span>
+                {% endif %}
+
+            {% endfor %}
+            <br/>
+        {% endif %}
+
+        {% if user.name is defined and user.name is not empty %}
+            <span class="label label-warning" style="float: right;margin-left: 2px;">
+            par {{ user.name }}
+        </span>
+
+        {% endif %}
+
+    </div>
+      <span class="label label-info" style="float: left;margin-right: 2px;">
+            {{ updatedAt|localizeddate('long', 'none') }}
+        </span>
+    <br/>
+
+    <h1>{{ name }}</h1>
+
+    <p>{{ content|slice(0,300)|raw }}...</p>
+
+    <a style="float: right;" href="{{ url }}" class="btn btn-primary btn-large hide">{{ labelLink }} &raquo;</a>
+    <br style="clear: both;"/>
+</div>

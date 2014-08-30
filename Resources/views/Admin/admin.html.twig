@@ -1,0 +1,42 @@
+{% extends 'FXLMagicBundle::base.html.twig' %}
+
+{% block title %}Admin interface{% endblock title %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'FXLMagicBundle:Component:node.html.twig' with {
+            'entities': entities,
+            'level'   : 0
+            } %}
+
+        </div>
+        <div class="col-md-9">
+            <form action="#" method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fxlmagic/js/jquery.treeview.js') }}"></script>
+    <script src="{{ asset('bundles/fxlmagic/js/jquery.treeview.edit.js') }}"></script>
+    <script src="{{ asset('bundles/fxlmagic/js/jquery.tinymce.js') }}"></script>
+    <script src="{{ asset('bundles/fxlmagic/js/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('bundles/fxlmagic/js/tools.js') }}"></script>
+
+{% endblock %}
+
+{% block jquery_ready %}
+
+    $('#browser').treeview({
+    cookieId: 'treeview-admin',
+    collapsed: true,
+    });
+
+{% endblock %}

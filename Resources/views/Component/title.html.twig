@@ -1,0 +1,27 @@
+<div class="hero-unit">
+
+    <div class="crop" style="float: right;">
+        <img alt="logo à la une"
+             src="{{ path("image_logo_track", {"projectId":lastDocuments[0].track.project.id, "trackId":lastDocuments[0].track.id}) }}"/>
+    </div>
+
+    {% for tag in lastDocuments[0].track.project.tags %}
+        <span class="label label-inverse" style="float: right;margin-left: 2px;">
+                {{ tag.name }}
+            </span>
+        <span class="label label-info" style="float: right;margin-right: 2px;">
+
+                {{ lastDocuments[0].updatedAt|localizeddate('long', 'none') }}
+
+            </span>
+    {% endfor %}
+
+    <h1>{{ lastDocuments[0].track.project.name }}</h1>
+
+    {{ lastDocuments[0].track.project.content|slice(0,500)|raw }}
+
+
+    <a style="float: right;" href="{{ url('project', {'slug': lastDocuments[0].track.project.slug}) }}"
+       class="btn btn-primary btn-large">{{ lastDocuments[0].track.project.name }} &raquo;</a>
+    <br style="clear: both;"/>
+</div>

@@ -1,0 +1,20 @@
+<ul class="breadcrumb">
+    <li><a href="/"><i class="icon-home"></i></a><span class="divider">/</span></li>
+
+    {% for item in breadcrumb %}
+        {% if item.routeName is defined and item.routeName is not empty %}
+            <a href="{{ url(item.routeName) }}">
+                {{ item.name|raw }}
+            </a><span class="divider">/</span>
+        {% else %}
+            {{ item.name|raw }}
+        {% endif %}
+    {% endfor %}
+
+    {% if tag is defined %}
+        {% for tag in tags %}
+            <li style="float: right;">&nbsp;<span class="label label-inverse">{{ tag.name }}</span></li>
+        {% endfor %}
+    {% endif %}
+    </li>
+</ul>

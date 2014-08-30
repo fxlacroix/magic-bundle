@@ -1,0 +1,34 @@
+{% extends 'FXLMagicBundle::base.html.twig' %}
+
+{% block title %}Consumer interface{% endblock title %}
+
+{% block content %}
+
+    <h2>Consume</h2><br/>
+    <div class="ui-widget">
+        <label for="autocomplete">Recherche:</label>
+        <input id="query_consumer">
+    </div>
+    <br/>
+    <div class="wikipedia-definition col-md-10"></div>
+    <div class="wikipedia-images col-md-2"></div>
+
+
+    <style>
+        .panel-collapse {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+
+{% endblock %}
+
+{% block foot_script_assetic %}
+
+    {{ parent() }}
+    {% javascripts
+    '@FXLMagicBundle/Resources/public/js/consumer/consumer.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

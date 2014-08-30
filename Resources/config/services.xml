@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="fxl_component.consumer.class">FXL\Component\Consumer\Consumer</parameter>
+        <parameter key="fxl_component.consumer.wikipedia.driver.class">FXL\Component\Consumer\Driver\WikipediaDriver</parameter>
+        <parameter key="fxl_component.consumer.last_fm.driver.class">FXL\Component\Consumer\Driver\LastFmDriver</parameter>
+        <parameter key="fxl_component.consumer.google.image.driver.class">FXL\Component\Consumer\Driver\GoogleImageDriver</parameter>
+    </parameters>
+
+    <services>
+        <!-- driver service -->
+        <service id="fxl_component.consumer.driver.wikipedia"
+                 class="%fxl_component.consumer.wikipedia.driver.class%"></service>
+        <service id="fxl_component.consumer.driver.last_fm"
+                 class="%fxl_component.consumer.last_fm.driver.class%"></service>
+        <service id="fxl_component.consumer.driver.google.image"
+                 class="%fxl_component.consumer.google.image.driver.class%"></service>
+
+        <!-- consumers wikipedia -->
+        <service id="fxl_component.consumer.wikipedia" class="%fxl_component.consumer.class%">
+            <argument type="service" id="fxl_component.consumer.driver.wikipedia"></argument>
+        </service>
+
+        <!-- consumers google image -->
+        <service id="fxl_component.consumer.google.image" class="%fxl_component.consumer.class%">
+            <argument type="service" id="fxl_component.consumer.driver.google.image"></argument>
+        </service>
+
+        <!-- consumers last fm -->
+        <service id="fxl_component.consumer.last_fm" class="%fxl_component.consumer.class%">
+            <argument type="service" id="fxl_component.consumer.driver.last_fm"></argument>
+        </service>
+
+        <service id="twig.extension.magic.relation" class="FXL\Bundle\MagicBundle\Twig\Extension\RelationExtension">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="twig.extension"/>
+        </service>
+
+    </services>
+
+</container>

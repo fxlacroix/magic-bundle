@@ -1,0 +1,43 @@
+{% for item in items %}
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+
+            {% if item.date is defined and item.date is not empty %}
+                <div class="label label-info pull-left">
+                    {{ item.date }}
+                </div>
+            {% endif %}
+
+            {% if item.files.count > 0 %}
+                <div class="label label-default pull-right">
+                    {{ item.files.count }} prises
+                </div>
+            {% endif %}
+
+            {% if item.picture is defined and item.picture is not empty %}
+                <img data-src="{{ item.picture }}" alt="100%x200" src="{{ item.picture }}"
+                     style="float: left; margin-bottom: 5px; height: 200px; width: 100%; display: block;">
+            {% endif %}
+
+            {% if withButton is defined %}
+                <a href="{{ path('photo_user_list_folder', {
+                'userName': userName,
+                'folderName': item.name
+                }) }}" class="btn btn-primary pull-right" role="button">Voir la gallerie</a>
+            {% endif %}
+
+            <h3>{{ item.name|capitalize }}</h3>
+
+            {% if item.content is defined and item.content is not empty %}
+                <p>{{ item.content }}</p>
+            {% endif %}
+
+            <div class="clearfix visible-xs-block"></div>
+        </div>
+
+        {% if loop.index % 3 == 0 %}
+            <br/>
+        {% endif %}
+
+    </div>
+{% endfor %}

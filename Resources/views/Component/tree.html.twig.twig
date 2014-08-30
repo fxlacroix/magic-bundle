@@ -1,0 +1,71 @@
+{% for entity in entities %}
+
+    {% set relations = entity|getRelation %}
+
+    <ul {% if level == 0 %}id="browser" class="filetree {{ entity|getClassCss }}"
+        {% else %}class="{{ entity|getClassCss }}"{% endif %}
+        itemprop="/admin/ajax/{{ entity|getClassChildName }}/tree/refresh">
+
+        {% if level == 0 %}
+            <li>
+                {% set baseClasse = entity|getClassChildName %}
+                <a href="#" class="refresh_tree" style="text-decoration: none; cursor: pointer; cursor: hand;">
+                    <i class="icon-refresh"></i>
+                </a>
+                <a href="#" class="new" itemprop="/admin/ajax/{{ baseClasse }}/{{ baseClasse }}/new">
+                    <i class="icon-plus"></i>
+                </a>
+            </li>
+
+        {% endif %}
+
+        <li class="{{ entity|getClassCss }}">
+            <span>
+                    <!--i class="icon-{{ entity|getClassChildName }}"></i-->
+
+                <a href="#"
+                   class="{{ entity|getClassChildName }} {% if entity.right is defined and entity.right %}right{% endif %}">
+
+                    {% if entity.name is defined and entity.name is not empty %}
+                        {{ entity.name }}
+                    {% elseif entity.content is defined and entity.content is not empty %}
+                        {{ entity.content|slice(0, 100) }}
+                    {% else %}
+                        {{ entity.id }}...
+                    {% endif %}
+                </a>
+
+                <a href="#" class="edit"
+                   itemprop="/admin/ajax/{{ baseClasse }}/{{ entity|getClassChildName }}/{{ entity.id }}/edit"><i
+                            class="icon-edit"></i></a>
+
+                {% if relations|length > 0 %}
+                    <a href="#" class="delete"
+                       itemprop="/admin/ajax/{{ baseClasse }}/{{ entity|getClassChildName }}/{{ entity.id }}/create"><i
+                                class="icon-plus"></i></a>
+                {% endif %}
+
+                <a href="#" class="delete"
+                   itemprop="/admin/ajax/{{ baseClasse }}/{{ entity|getClassChildName }}/{{ entity.id }}/delete"><i
+                            class="icon-trash"></i></a>
+
+            </span>
+
+
+            {% for relation in relations %}
+
+                {% set relationFieldName = relation.fieldName %}
+                {% set nodes = attribute(entity, relationFieldName) %}
+
+                {% include 'FXLCommonBundle:Component:node.html.twig' with {
+
+                entities:nodes,
+                level: level + 1,
+                baseClasse: baseClasse
+
+                } only %}
+            {% endfor %}
+
+        </li>
+    </ul>
+{% endfor %}

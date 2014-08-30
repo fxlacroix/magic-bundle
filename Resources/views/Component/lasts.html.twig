@@ -1,0 +1,16 @@
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li class="nav-header">Dernières publications</li>
+
+        {% for document in lastDocuments %}
+
+            {% set trackName = document.track.name ~ " - " ~ document.track.project.name %}
+
+            <li style="font-size: 12px;"><a
+                        href="{{ path("fxl_music_track", { "slugProject":document.track.project.slug, "slugTrack": document.track.slug }) }}">
+                    {% if trackName|length < 35 %}{{ trackName }}{% else %}{{ trackName|slice(0, 32) }}...{% endif %}</a>
+            </li>
+
+        {% endfor %}
+    </ul>
+</div>

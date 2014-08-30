@@ -1,0 +1,38 @@
+<div class="well sidebar-nav clearfix">
+    <ul class="nav nav-list">
+        <li class="nav-header ">{{ title }}</li>
+    </ul>
+    <table class="table">
+        {% for item in items %}
+            <tr class="clearfix well-small">
+                {% if route is defined %}
+                    <a href="{{ path("route", {"slug":item.slug}) }}">
+                        {{ item.name }}
+                    </a>
+                {% else %}
+
+                    {% set style = [ '', 'badge','label'] %}
+                    {% set color = ['muted', 'info','success'] %}
+
+                    {% if options is defined %}
+
+                        {% for i, option in options %}
+                            <td>
+                                {% set styleSelected = cycle(style, i) %}
+                                <span class="{% if styleSelected != '' %}
+                            {{ styleSelected }} {{ styleSelected~ '-' }}{{ cycle(color, i) }}
+                        {% else %}
+                              {{ cycle(color, i) }}
+                        {% endif %}">
+                        {% set value = attribute(item, option) %}
+                                    {{ value }}
+                        </span>
+                            </td>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>

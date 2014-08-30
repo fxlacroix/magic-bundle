@@ -1,0 +1,60 @@
+{% if assets|length > 0 %}
+
+
+    <div class="well sidebar-nav">
+
+        <div id="myCarousel" class="carousel slide">
+            <!-- Carousel items -->
+            <div class="carousel-inner ">
+                {% for asset in assets %}
+                    <div class="item">
+                        <img alt="image {{ asset(asset.name) }}" src="{{ asset(asset.path|raw ) }}"
+                             style="width: 100%;"/>
+
+                        {% if asset.author is defined and asset.author is not empty %}
+                            <div class="carousel-caption">
+                                <p>{{ asset.author.name }}</p>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div id="myModalCarousel" class="carousel slide">
+            <!-- Carousel items -->
+            <div class="carousel-inner ">
+                {% for asset in assets %}
+                    <div class="item">
+                        <img alt="image {{ asset(asset.name) }}" src="{{ asset.path|raw }}" style="width: 500px;"/>
+
+                        {% if asset.author is defined and asset.author is not empty %}
+                            <div class="carousel-caption">
+                                <p>{{ asset.author.name }}</p>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myModalCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myModalCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+
+    </div>
+
+    <style>
+        #myModal {
+            display: none;
+        }
+
+    </style>
+{% endif %}
